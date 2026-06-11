@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algo Inesquecível — Sara Albano</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rose:#f7c5d0;--deep-rose:#e8789a;--crimson:#c0385a;--blush:#fdeef3;
+  --gold:#d4a754;--gold-light:#f0d89a;--gold-pale:#fdf5e4;
+  --cream:#fff8f0;--ink:#2a1a22;--soft-ink:#4a2a38;
+  --blue:#4a7fa5;--blue-pale:#e8f3fb;--blue-deep:#1a3a5c;
+  --night:#0d0812;--night2:#1a1028;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--cream);
+  font-family:'Cormorant Garamond',serif;
+  color:var(--ink);
+  overflow-x:hidden;
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='22'%3E🌸%3C/text%3E%3C/svg%3E") 16 16,auto;
+}
+
+/* ========= PARTICLES BG ========= */
+.petals-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.petal{position:absolute;top:-60px;animation:fall linear infinite;opacity:.55}
+@keyframes fall{
+  0%{transform:translateY(0) rotate(0deg) translateX(0);opacity:.7}
+  50%{transform:translateY(50vh) rotate(180deg) translateX(35px);opacity:.4}
+  100%{transform:translateY(110vh) rotate(360deg) translateX(-25px);opacity:0}
+}
+.floating-hearts{position:fixed;inset:0;pointer-events:none;z-index:0}
+.fheart{position:absolute;bottom:-50px;animation:floatUp linear infinite;opacity:0}
+@keyframes floatUp{
+  0%{transform:translateY(0) scale(.8);opacity:0}
+  10%{opacity:.6}90%{opacity:.3}
+  100%{transform:translateY(-100vh) scale(1.3) rotate(15deg);opacity:0}
+}
+
+/* ========= PROGRESS BAR ========= */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;width:0%;z-index:9999;
+  background:linear-gradient(90deg,var(--deep-rose),var(--gold),var(--crimson));
+  transition:width .1s linear;
+}
+
+/* ========= COVER ========= */
+.cover{
+  position:relative;z-index:1;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:4rem 2rem;
+  background:radial-gradient(ellipse at 50% 35%,#fff0f5 0%,#ffe8f0 35%,#fdd5e8 65%,#f9bdd4 100%);
+  overflow:hidden;
+}
+.cover::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 15% 15%,rgba(247,197,208,.6) 0%,transparent 45%),
+    radial-gradient(circle at 85% 80%,rgba(212,167,84,.25) 0%,transparent 45%),
+    radial-gradient(circle at 50% 60%,rgba(232,120,154,.15) 0%,transparent 60%);
+}
+.cover-orb{
+  position:absolute;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.35) 0%,transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:pulse-orb 6s ease-in-out infinite;
+}
+@keyframes pulse-orb{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}50%{transform:translate(-50%,-50%) scale(1.15);opacity:.8}}
+.cover-bg-heart{
+  position:absolute;font-size:clamp(12rem,35vw,26rem);
+  opacity:.06;animation:heartbeat 3.5s ease-in-out infinite;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  user-select:none;
+}
+@keyframes heartbeat{
+  0%,100%{transform:translate(-50%,-50%) scale(1)}
+  14%{transform:translate(-50%,-50%) scale(1.1)}
+  28%{transform:translate(-50%,-50%) scale(1)}
+  42%{transform:translate(-50%,-50%) scale(1.06)}
+  70%{transform:translate(-50%,-50%) scale(1)}
+}
+.cover-eyebrow{
+  font-family:'Dancing Script',cursive;font-size:clamp(.9rem,2.5vw,1.2rem);
+  color:var(--crimson);letter-spacing:.2em;text-transform:uppercase;
+  margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s ease forwards .4s;
+  position:relative;z-index:2;
+}
+.cover-title{
+  font-family:'Playfair Display',serif;font-size:clamp(3.5rem,12vw,8rem);
+  font-weight:900;font-style:italic;line-height:.95;color:var(--crimson);
+  text-shadow:0 6px 40px rgba(192,56,90,.3);
+  margin-bottom:1.8rem;opacity:0;animation:fadeUp 1s ease forwards .7s;
+  position:relative;z-index:2;
+}
+.cover-title span{
+  display:block;font-size:.4em;font-style:normal;font-weight:400;
+  color:var(--gold);letter-spacing:.3em;text-transform:uppercase;
+  font-family:'Cormorant Garamond',serif;margin-bottom:.5rem;
+}
+.cover-name{
+  font-family:'Dancing Script',cursive;font-size:clamp(2.2rem,7vw,4.5rem);
+  color:var(--gold);text-shadow:0 3px 25px rgba(212,167,84,.5);
+  opacity:0;animation:fadeUp 1s ease forwards 1s;
+  position:relative;z-index:2;margin-bottom:.8rem;
+}
+.cover-date{
+  font-size:.95rem;letter-spacing:.25em;color:var(--deep-rose);
+  opacity:0;animation:fadeUp .9s ease forwards 1.3s;
+  position:relative;z-index:2;margin-bottom:1rem;
+}
+.cover-tagline{
+  font-family:'IM Fell English',serif;font-style:italic;
+  font-size:clamp(1rem,2.5vw,1.3rem);color:var(--soft-ink);
+  opacity:0;animation:fadeUp .9s ease forwards 1.6s;
+  position:relative;z-index:2;max-width:480px;line-height:1.6;
+}
+.scroll-hint{
+  position:absolute;bottom:2.5rem;display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  opacity:0;animation:fadeUp .9s ease forwards 2.2s;z-index:2;
+}
+.scroll-hint span{font-size:.8rem;letter-spacing:.18em;color:var(--deep-rose);text-transform:uppercase}
+.scroll-arrow{
+  width:22px;height:22px;border-right:2px solid var(--deep-rose);border-bottom:2px solid var(--deep-rose);
+  transform:rotate(45deg);animation:bounce 1.6s ease-in-out infinite;
+}
+@keyframes bounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(7px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+
+/* ========= CHAPTER BREAK ========= */
+.chapter-break{
+  text-align:center;padding:4rem 2rem;position:relative;z-index:1;
+  opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s ease;
+}
+.chapter-break.visible{opacity:1;transform:translateY(0)}
+.chapter-break .ch-number{
+  font-family:'Playfair Display',serif;font-size:5rem;font-weight:900;
+  color:rgba(232,120,154,.12);line-height:1;display:block;
+}
+.chapter-break .ch-title{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(1.4rem,4vw,2rem);color:var(--crimson);
+  display:block;margin-top:-.5rem;
+}
+.chapter-break .ch-ornament{
+  display:flex;align-items:center;gap:1rem;justify-content:center;margin-top:1rem;
+}
+.chapter-break .ch-ornament::before,.chapter-break .ch-ornament::after{
+  content:'';flex:1;max-width:120px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--deep-rose));
+}
+.chapter-break .ch-ornament::after{background:linear-gradient(90deg,var(--deep-rose),transparent)}
+.chapter-break .ch-ornament span{color:var(--deep-rose);font-size:1.2rem;letter-spacing:.5rem}
+
+/* ========= LETTER WRAPPER ========= */
+.letter-wrapper{
+  position:relative;z-index:1;
+  max-width:820px;margin:0 auto;
+  padding:0 1.5rem 3rem;
+}
+
+/* ========= SECTION ========= */
+.section{
+  background:#fffbfc;
+  border:1px solid rgba(232,120,154,.15);
+  padding:clamp(2.5rem,7vw,5rem) clamp(1.8rem,7vw,4rem);
+  margin-bottom:2rem;
+  position:relative;
+  box-shadow:0 10px 50px rgba(192,56,90,.06),0 2px 10px rgba(192,56,90,.04);
+  opacity:0;transform:translateY(45px);
+  transition:opacity .9s ease,transform .9s ease;
+}
+.section.visible{opacity:1;transform:translateY(0)}
+.section::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--deep-rose),var(--gold),var(--deep-rose),transparent);
+}
+.section.blue-section{
+  background:linear-gradient(135deg,#f0f8ff,#e8f3fb,#f5f0ff);
+  border-color:rgba(74,127,165,.2);
+}
+.section.blue-section::before{
+  background:linear-gradient(90deg,transparent,var(--blue),#9b8ec4,var(--blue),transparent);
+}
+.section.dark-section{
+  background:linear-gradient(135deg,#1a0f1a,#2a1030,#1a1028);
+  color:#fff;border-color:rgba(255,255,255,.08);
+}
+.section.dark-section::before{
+  background:linear-gradient(90deg,transparent,var(--gold),var(--deep-rose),var(--gold),transparent);
+}
+.section.dark-section h2{color:var(--gold-light)}
+.section.dark-section p{color:rgba(255,255,255,.82);font-weight:300}
+.section.dark-section em{color:var(--gold-light)}
+.section.dark-section strong{color:#fff}
+
+.section-ornament{
+  text-align:center;font-size:1.4rem;margin-bottom:1.8rem;
+  color:var(--deep-rose);letter-spacing:.6rem;
+}
+.section-label{
+  font-family:'Dancing Script',cursive;font-size:1.05rem;
+  color:var(--deep-rose);letter-spacing:.1em;display:block;margin-bottom:.5rem;
+}
+.section.dark-section .section-label{color:var(--gold)}
+.section h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,4.5vw,2.4rem);font-weight:700;font-style:italic;
+  color:var(--crimson);margin-bottom:2rem;line-height:1.2;
+}
+.section p{
+  font-size:clamp(1.1rem,2.5vw,1.28rem);line-height:2.05;
+  color:var(--soft-ink);margin-bottom:1.5rem;font-weight:300;
+}
+.section p:last-child{margin-bottom:0}
+em{font-style:italic;color:var(--crimson)}
+strong{font-weight:600;color:var(--soft-ink)}
+
+/* ========= QUOTE BLOCK ========= */
+.quote-block{
+  border-left:3px solid var(--deep-rose);
+  padding:1.2rem 2rem;margin:2rem 0;
+  background:linear-gradient(135deg,rgba(247,197,208,.12),rgba(253,238,243,.25));
+}
+.quote-block p{
+  font-family:'IM Fell English',serif;font-style:italic;
+  font-size:clamp(1.2rem,3vw,1.55rem) !important;
+  color:var(--crimson) !important;margin:0 !important;line-height:1.6;
+}
+.quote-block.gold-quote{
+  border-left-color:var(--gold);
+  background:linear-gradient(135deg,rgba(212,167,84,.08),rgba(253,245,228,.25));
+}
+.quote-block.gold-quote p{color:var(--gold) !important}
+.quote-block.blue-quote{
+  border-left-color:var(--blue);
+  background:linear-gradient(135deg,rgba(74,127,165,.08),rgba(232,243,251,.25));
+}
+.quote-block.blue-quote p{color:var(--blue-deep) !important}
+
+/* ========= BILHETE ========= */
+.note-card{
+  background:#fffff5;
+  border:1px solid rgba(212,167,84,.3);
+  padding:2.5rem 3rem;margin:2.5rem 0;
+  position:relative;
+  box-shadow:4px 5px 22px rgba(0,0,0,.1),inset 0 0 0 1px rgba(212,167,84,.08);
+  font-family:'Dancing Script',cursive;font-size:1.2rem;
+  line-height:2.4;color:var(--ink);transform:rotate(-0.6deg);
+}
+.note-card::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(transparent,transparent 38px,rgba(212,167,84,.18) 39px);
+  pointer-events:none;
+}
+.note-line{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.2rem;position:relative;z-index:1}
+.note-who{font-weight:700;color:var(--crimson)}
+.note-special{
+  position:absolute;bottom:1.2rem;right:2rem;
+  font-size:1.4rem;color:var(--crimson);font-weight:700;
+  transform:rotate(4deg);
+}
+.note-tape{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%) rotate(-2deg);
+  width:80px;height:22px;
+  background:rgba(255,240,150,.7);
+  border:1px solid rgba(212,167,84,.3);
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+
+/* ========= TIMESTAMP ========= */
+.timestamp{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:linear-gradient(135deg,var(--deep-rose),var(--crimson));
+  color:#fff;font-size:.82rem;letter-spacing:.18em;
+  text-transform:uppercase;padding:.45rem 1.3rem;margin-bottom:1.8rem;
+  box-shadow:0 4px 15px rgba(192,56,90,.3);
+}
+
+/* ========= DIVIDER ========= */
+.divider{
+  text-align:center;margin:0 0 2rem;
+  color:var(--deep-rose);font-size:1.2rem;letter-spacing:.8rem;
+  opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s ease;
+}
+.divider.visible{opacity:.45;transform:translateY(0)}
+
+/* ========= FULL-WIDTH INTERLUDE ========= */
+.interlude{
+  position:relative;z-index:1;
+  padding:clamp(4rem,10vw,8rem) 2rem;
+  text-align:center;
+  background:linear-gradient(135deg,#fdeef3,#ffe8f2,#fdf0f5);
+  margin-bottom:0;
+  opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s ease;
+}
+.interlude.visible{opacity:1;transform:translateY(0)}
+.interlude.night-interlude{
+  background:linear-gradient(135deg,#0d0812,#1a1028,#0d1a2a);
+}
+.interlude.blue-interlude{
+  background:linear-gradient(135deg,#e8f3fb,#d4e8f5,#eaf0fb);
+}
+.interlude-text{
+  font-family:'IM Fell English',serif;font-style:italic;
+  font-size:clamp(1.4rem,4vw,2.2rem);line-height:1.7;
+  max-width:680px;margin:0 auto;color:var(--crimson);
+}
+.interlude.night-interlude .interlude-text{color:var(--gold-light)}
+.interlude.blue-interlude .interlude-text{color:var(--blue-deep)}
+.interlude-author{
+  font-family:'Dancing Script',cursive;font-size:1rem;
+  color:var(--deep-rose);margin-top:1.5rem;letter-spacing:.1em;
+}
+.interlude.night-interlude .interlude-author{color:rgba(255,255,255,.5)}
+.interlude.blue-interlude .interlude-author{color:var(--blue)}
+
+/* ========= MILESTONE CARDS ========= */
+.milestones{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.2rem;margin:2rem 0;
+}
+.milestone{
+  background:linear-gradient(135deg,rgba(247,197,208,.2),rgba(253,238,243,.4));
+  border:1px solid rgba(232,120,154,.2);
+  padding:1.5rem;text-align:center;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.milestone:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(192,56,90,.12)}
+.milestone-icon{font-size:2rem;margin-bottom:.8rem;display:block}
+.milestone-title{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1rem;color:var(--crimson);display:block;margin-bottom:.4rem;
+}
+.milestone-text{font-size:.92rem;color:var(--soft-ink);line-height:1.6;font-weight:300}
+
+/* ========= INLINE HIGHLIGHT ========= */
+.hl{
+  background:linear-gradient(120deg,rgba(247,197,208,.0) 0%,rgba(247,197,208,.5) 50%,rgba(247,197,208,.0) 100%);
+  padding:.1em .3em;
+}
+
+/* ========= BIG NUMBER ========= */
+.big-stat{
+  text-align:center;padding:3rem 2rem;position:relative;
+}
+.big-stat .number{
+  font-family:'Playfair Display',serif;font-size:clamp(5rem,18vw,11rem);
+  font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--crimson),var(--deep-rose),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.big-stat .label{
+  font-family:'Dancing Script',cursive;font-size:1.3rem;
+  color:var(--soft-ink);display:block;margin-top:.5rem;
+}
+
+/* ========= LETTER INSIDE LETTER ========= */
+.inner-letter{
+  background:var(--gold-pale);
+  border:1px solid rgba(212,167,84,.4);
+  padding:3rem 3.5rem;margin:2.5rem 0;
+  position:relative;
+  box-shadow:0 8px 30px rgba(212,167,84,.15);
+  font-family:'IM Fell English',serif;
+}
+.inner-letter::before{
+  content:'"';
+  position:absolute;top:-.5rem;left:1rem;
+  font-size:8rem;color:rgba(212,167,84,.2);
+  line-height:1;font-family:'Playfair Display',serif;
+  pointer-events:none;
+}
+.inner-letter p{
+  font-size:clamp(1.1rem,2.5vw,1.3rem) !important;
+  line-height:2 !important;color:var(--soft-ink) !important;
+  font-style:italic;
+}
+
+/* ========= STARFIELD SECTION ========= */
+.starfield-section{
+  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#0d0812 0%,#1a1028 40%,#0d1520 100%);
+  padding:clamp(4rem,10vw,8rem) 2rem;
+  z-index:1;
+  opacity:0;transform:translateY(40px);transition:opacity 1s ease,transform 1s ease;
+}
+.starfield-section.visible{opacity:1;transform:translateY(0)}
+#stars-canvas{position:absolute;inset:0;width:100%;height:100%}
+.starfield-content{
+  position:relative;z-index:2;
+  max-width:700px;margin:0 auto;text-align:center;
+}
+.starfield-content h2{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(1.8rem,5vw,3rem);color:var(--gold-light);
+  margin-bottom:2rem;line-height:1.2;
+}
+.starfield-content p{
+  font-size:clamp(1.1rem,2.5vw,1.3rem);line-height:2;
+  color:rgba(255,255,255,.8);margin-bottom:1.5rem;font-weight:300;
+}
+.starfield-content em{color:var(--gold-light)}
+
+/* ========= FINAL SECTION ========= */
+.final-section{
+  position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#1a0812 0%,#2a0f20 30%,#1a1028 60%,#0d0d20 100%);
+  padding:clamp(4rem,10vw,8rem) clamp(2rem,6vw,5rem);
+  z-index:1;
+  opacity:0;transform:translateY(45px);transition:opacity 1.2s ease,transform 1.2s ease;
+}
+.final-section.visible{opacity:1;transform:translateY(0)}
+.final-section::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--deep-rose),var(--gold),transparent);
+}
+.final-bg-heart{
+  position:absolute;font-size:40rem;color:rgba(255,255,255,.025);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  pointer-events:none;animation:heartbeat 5s ease-in-out infinite;
+  user-select:none;
+}
+.final-section h2{
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:900;
+  font-size:clamp(2rem,6vw,3.5rem);color:var(--gold-light);
+  margin-bottom:2.5rem;line-height:1.2;text-align:center;
+  position:relative;z-index:2;
+}
+.final-section p{
+  font-size:clamp(1.1rem,2.5vw,1.3rem);line-height:2.1;
+  color:rgba(255,255,255,.82);margin-bottom:1.8rem;
+  font-weight:300;position:relative;z-index:2;
+  max-width:700px;margin-left:auto;margin-right:auto;
+}
+.final-section p:last-of-type{margin-bottom:0}
+.final-section em{color:var(--gold-light)}
+.final-section strong{color:#fff;font-weight:600}
+.final-reveal{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  padding:3rem 2.5rem;margin:3.5rem auto;
+  max-width:640px;text-align:center;
+  position:relative;z-index:2;
+}
+.final-reveal::before,.final-reveal::after{
+  content:'— ✦ ✦ ✦ —';display:block;
+  color:var(--gold);font-size:1rem;letter-spacing:.4rem;margin-bottom:1.5rem;
+}
+.final-reveal::after{margin-top:1.5rem;margin-bottom:0}
+.final-reveal p{
+  font-family:'IM Fell English',serif;font-style:italic;
+  font-size:clamp(1.1rem,2.5vw,1.3rem) !important;
+  color:rgba(255,255,255,.75) !important;
+  margin:0 !important;line-height:1.8;
+}
+.signature-block{
+  text-align:center;padding:3rem 0 1rem;
+  position:relative;z-index:2;
+}
+.signature{
+  font-family:'Dancing Script',cursive;font-size:clamp(2rem,6vw,3.2rem);
+  color:var(--gold-light);
+  text-shadow:0 0 40px rgba(240,216,154,.45);
+  display:block;margin-bottom:.5rem;
+}
+.signature-sub{
+  font-size:.9rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+}
+
+/* ========= BOOK METAPHOR ========= */
+.book-page{
+  background:linear-gradient(135deg,#fffdf7,#fff8ec);
+  border:1px solid rgba(212,167,84,.25);
+  padding:3rem 3.5rem;margin:2rem 0;
+  position:relative;
+  box-shadow:3px 0 15px rgba(0,0,0,.08),-3px 0 15px rgba(0,0,0,.04);
+}
+.book-page::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--gold),var(--deep-rose),var(--gold));
+}
+.book-page .page-number{
+  position:absolute;bottom:1rem;right:1.5rem;
+  font-size:.85rem;color:rgba(74,42,56,.35);letter-spacing:.1em;
+  font-family:'IM Fell English',serif;font-style:italic;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .note-card{padding:1.8rem 1.5rem;font-size:1.05rem}
+  .inner-letter{padding:2rem 1.5rem}
+  .book-page{padding:2rem 1.5rem}
+  .final-reveal{padding:2rem 1.5rem}
+  .milestones{grid-template-columns:1fr 1fr}
+}
+
+/* ========= TOUCH PARTICLES ========= */
+.touch-particle{
+  position:fixed;
+  pointer-events:none;
+  z-index:99999;
+  user-select:none;
+  font-size:1.3rem;
+  transform:translate(-50%,-50%) scale(0);
+  animation:touchBurst .9s ease-out forwards;
+  will-change:transform,opacity;
+}
+@keyframes touchBurst{
+  0%  {transform:translate(-50%,-50%) scale(0);   opacity:1}
+  30% {transform:translate(var(--tx),var(--ty)) scale(1.4); opacity:1}
+  100%{transform:translate(var(--tx2),var(--ty2)) scale(.4); opacity:0}
+}
+.touch-ripple{
+  position:fixed;pointer-events:none;z-index:99998;
+  border-radius:50%;transform:translate(-50%,-50%) scale(0);
+  animation:rippleOut .6s ease-out forwards;
+  border:2px solid rgba(232,120,154,.5);
+  width:40px;height:40px;
+}
+@keyframes rippleOut{
+  0%  {transform:translate(-50%,-50%) scale(0);opacity:.8}
+  100%{transform:translate(-50%,-50%) scale(3.5);opacity:0}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div class="petals-bg" id="petals"></div>
+<div class="floating-hearts" id="fhearts"></div>
+
+<!-- ══════════════ CAPA ══════════════ -->
+<section class="cover">
+  <div class="cover-orb"></div>
+  <div class="cover-bg-heart">♥</div>
+  <span class="cover-eyebrow">uma carta escrita com o coração inteiro</span>
+  <h1 class="cover-title">
+    <span>para sempre</span>
+    Algo Inesquecível
+  </h1>
+  <div class="cover-name">Sara Albano 🌸</div>
+  <div class="cover-date">16 · 03 · 18h09 · o começo de tudo</div>
+  <p class="cover-tagline">
+    "Você me levou a um lugar novo, mais bonito,<br>onde as coisas têm mais cor e o tempo passa diferente."
+  </p>
+  <div class="scroll-hint">
+    <span>abra o livro</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ══════════════ CAPÍTULO I ══════════════ -->
+<div class="chapter-break">
+  <span class="ch-number">I</span>
+  <span class="ch-title">Antes do começo — o silêncio que guardava tudo</span>
+  <div class="ch-ornament"><span>✦ · ✦ · ✦</span></div>
+</div>
+
+<div class="letter-wrapper">
+
+  <div class="section">
+    <span class="section-label">o que existia antes de você saber</span>
+    <h2>Há sentimentos que chegam sem avisar</h2>
+    <p>
+      Sara, existe uma coisa curiosa sobre os sentimentos profundos: eles não pedem licença.
+      Não chegam na hora certa, não aparecem quando a gente está pronto, não avisam antes de entrar.
+      Eles simplesmente <em>estão lá</em> — de repente, sem cerimônia, sem pré-aviso —
+      e a gente só percebe quando já é tarde demais pra fingir que não sente.
+    </p>
+    <p>
+      Foi assim comigo. Antes de qualquer conversa, antes de qualquer palavra trocada de verdade,
+      antes até de você saber que eu existia do jeito que passei a existir —
+      eu já te admirava. Não do jeito barulhento, não do tipo que vira confissão no primeiro dia.
+      Era a admiração que fica quieta no peito, que vai crescendo por baixo, silenciosa,
+      como raiz que não aparece na superfície mas já sustenta tudo.
+    </p>
+    <p>
+      Eu observava a leveza com que você existia. O jeito que você sorria sem motivo aparente.
+      A forma como você falava — direta, sem rodeio, sem aquela performance que a maioria das pessoas faz.
+      Você era <em>real</em>. Num mundo cheio de gente tentando parecer algo,
+      você simplesmente <strong>era</strong>. E isso, Sara, é mais raro do que você imagina.
+    </p>
+    <div class="quote-block">
+      <p>Antes de te conhecer eu já te admirava. Depois de te conhecer eu entendi o porquê.</p>
+    </div>
+    <p>
+      O coração é sábio de um jeito que a mente tarda a compreender.
+      Ele já tinha escolhido, bem antes que eu tivesse palavras pra isso.
+      Bem antes de 18h09 do dia 16 de março.
+      Bem antes do bilhete. Bem antes de qualquer coisa.
+      Ele já sabia — e ficou quieto, esperando a hora certa.
+    </p>
+  </div>
+
+  <div class="divider">✦ · · · · · ✦ · · · · · ✦</div>
+
+  <div class="section blue-section">
+    <span class="section-label">sobre o tipo de pessoa que você é</span>
+    <h2>O que faz de você, você</h2>
+    <p>
+      Tem gente que a gente conhece e esquece no mesmo dia.
+      Tem gente que deixa rastro, mas o rastro vai sumindo com o tempo.
+      E tem gente — rara, escassa, do tipo que aparece uma vez por geração —
+      que muda a paisagem interna de quem passa por elas.
+      <em>Você é esse tipo de pessoa.</em>
+    </p>
+    <p>
+      Você tem uma qualidade que eu demorei pra nomear mas sempre senti:
+      você faz as pessoas ao redor se sentirem <strong>vistas</strong>.
+      Não de forma calculada, não como estratégia — é natural, é instintivo,
+      é quem você é. Quando você está presente, está de verdade presente.
+      Os olhos, a atenção, o cuidado — tudo junto, ao mesmo tempo.
+      Isso é absurdamente raro.
+    </p>
+    <div class="quote-block blue-quote">
+      <p>Você não ocupa espaço. Você ilumina espaço. Tem diferença.</p>
+    </div>
+    <p>
+      E tem a sua doçura — não a doçura de mel que enjoa, mas aquela doçura de quem cuida
+      sem fazer alarde, de quem dá sem cobrar, de quem está sem precisar ser agradecido.
+      A doçura de quem aprendeu que gentileza não é fraqueza, que é, na verdade,
+      uma das formas mais corajosas de existir no mundo.
+    </p>
+    <p>
+      Você é gentil de um jeito que me ensinou a ser mais gentil também.
+      Você é leve de um jeito que me fez largar alguns pesos que eu nem sabia que carregava.
+      Você chegou e, sem querer, sem planejar, foi fazendo de mim uma versão melhor.
+      E eu devo isso a você. Inteiro.
+    </p>
+  </div>
+
+</div><!-- /letter-wrapper -->
+
+<!-- INTERLUDE 1 -->
+<div class="interlude">
+  <p class="interlude-text">
+    "Tem pessoas que passam pela nossa vida como vento.<br>
+    Você passou como estação —<br>
+    mudou tudo, e ficou."
+  </p>
+  <span class="interlude-author">— escrito pra você, Sara</span>
+</div>
+
+<!-- ══════════════ CAPÍTULO II ══════════════ -->
+<div class="chapter-break">
+  <span class="ch-number">II</span>
+  <span class="ch-title">18h09 — o segundo que partiu o tempo ao meio</span>
+  <div class="ch-ornament"><span>✦ · ✦ · ✦</span></div>
+</div>
+
+<div class="letter-wrapper">
+
+  <div class="section">
+    <div class="timestamp">♥ 16 de março · exatamente 18h09</div>
+    <span class="section-label">o momento que não volta mas fica para sempre</span>
+    <h2>Antes e depois de uma pergunta</h2>
+    <p>
+      Existe um antes e um depois de 18h09 do dia 16 de março.
+      Esse é um fato. Não exagero, não romantismo exagerado —
+      é a forma mais honesta que eu tenho de descrever o que aconteceu naquele momento.
+      Antes disso: um sentimento sem saída, sem destino, sem nome.
+      Depois disso: certeza.
+    </p>
+    <p>
+      O dia tinha sido comum. Daqueles que a gente vive no automático,
+      sem saber que vai ser especial até que seja. E de repente chegou aquele instante —
+      aquele espaço de dois segundos onde eu respirei fundo,
+      olhei pra você e decidi que ia falar.
+      Não porque eu sabia o que ia acontecer.
+      <em>Justamente porque eu não sabia.</em>
+    </p>
+    <div class="big-stat">
+      <span class="number">18:09</span>
+      <span class="label">o horário mais bonito que já existiu</span>
+    </div>
+    <div class="quote-block">
+      <p>"Sara, você já estudou no Colégio São Raimundo?"</p>
+    </div>
+    <p>
+      Seis palavras. Seis palavras que pareciam simples mas pesavam toneladas.
+      Seis palavras que carregavam tudo que eu não estava dizendo:
+      <em>eu quero te conhecer. Eu quero que você saiba que eu existo. Eu quero que a gente comece.</em>
+    </p>
+    <p>
+      E você olhou. Com aqueles olhos. E respondeu — <strong>"já"</strong> — de um jeito tão natural,
+      tão sem pretensão, tão você, que eu precisei de um segundo pra me reorganizar por dentro.
+      Porque quando você respondeu, algo se encaixou.
+      Não de forma dramática, não com música, não com fogos de artifício.
+      De forma quieta. Profunda. Definitiva.
+    </p>
+    <p>
+      Era aquele tipo de certeza que não grita. Que sussurra uma vez só e nunca mais precisa repetir.
+      <em>Ia dar certo. Agora ia dar certo mesmo.</em>
+      E deu, Sara. Olha só — deu.
+    </p>
+  </div>
+
+  <div class="divider">✦ · · · · · ✦ · · · · · ✦</div>
+
+  <!-- BILHETE -->
+  <div class="section">
+    <span class="section-label">a relíquia que guardo como tesouro</span>
+    <h2>Um bilhete que virou história</h2>
+    <p>
+      Tem objetos no mundo que parecem simples por fora e carregam universos por dentro.
+      Uma foto amarelada. Um ingresso de show rasgado. Um papel dobrado no fundo de uma gaveta.
+      Esses objetos não têm valor de mercado — têm valor de <em>memória</em>,
+      que é o único tipo de valor que realmente não deprecia.
+    </p>
+    <p>
+      O nosso bilhete é assim. Papel simples. Tinta de caneta. Letra apressada.
+      E o objeto mais precioso que eu conheço.
+    </p>
+
+    <div class="note-card">
+      <div class="note-tape"></div>
+      <div class="note-line"><span class="note-who">Eu →</span> <span>onde ta o jesko??? carro laranja</span></div>
+      <div class="note-line"><span class="note-who">Sara →</span> <span>mano, a mayara pediu pra separar os dela. Coloquei tudo na mesa dela</span></div>
+      <div class="note-line"><span class="note-who">Eu →</span> <span>BLZ, agora tem que falar por papel, pra não falar alto</span></div>
+      <div class="note-line"><span class="note-who">Sara →</span> <span>paia KKK vai copiar</span></div>
+      <div class="note-special" style="bottom:1.2rem;right:2rem;font-size:.95rem;color:rgba(74,42,56,.4);font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:400;transform:rotate(2deg)">— ela escreveu, no cantinho —</div>
+      <div style="position:absolute;bottom:2.8rem;right:2rem;font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--crimson);font-weight:700;transform:rotate(3deg);z-index:2">sua linda ♥</div>
+    </div>
+
+    <p>
+      Olha essa cena, Sara. Olha direito. Dois jovens passando bilhete como se fossem
+      crianças no fundo da sala — e sendo, de certa forma, exatamente isso: duas pessoas
+      descobrindo uma forma de se aproximar, com as ferramentas que tinham disponíveis.
+      Papel. Caneta. Coragem mal disfarçada.
+    </p>
+    <p>
+      Você achou graça da situação — não podia falar alto, e lá estávamos nós dois,
+      nos comunicando por papelzinho como se o mundo tivesse voltado alguns anos.
+      <em>"paia KKK"</em> — dava pra ouvir sua risada só de ler aquilo.
+      Aquela risada específica sua, que começa pequena e transborda,
+      que é genuína demais pra ser contida. Esse momento me encantou.
+    </p>
+    <div class="quote-block gold-quote">
+      <p>E num cantinho do papel — pequeno, quase escondido — você escreveu: "sua linda."</p>
+    </div>
+    <p>
+      Duas palavras. Três sílabas. A coisa mais bonita que alguém já me disse
+      sem precisar dizer em voz alta — escondida num cantinho com aquela coragem
+      discreta de quem sente mas ainda não sabe bem o tamanho do que sente.
+      Eu vi. E fiquei feliz de um jeito que não cabia em mim.
+    </p>
+    <p>
+      Porque naquele cantinho estava escrito tudo.
+      Não só "sua linda" — estava escrito que você também tinha percebido algo.
+      Que o bilhete não era só sobre o jesko e o carro laranja.
+      Que a gente estava, os dois, começando alguma coisa
+      que <em>nem sabia ainda que estava começando</em>.
+      O papel sabia antes da gente. E eu fui tão feliz por ter lido aquilo.
+    </p>
+  </div>
+
+</div>
+
+<!-- INTERLUDE NOTURNO -->
+<div class="interlude night-interlude">
+  <p class="interlude-text">
+    "Às vezes me pergunto o que teria acontecido<br>
+    se eu não tivesse falado naquele dia.<br>
+    E fico grato — infinitamente grato —<br>
+    por ter tido coragem."
+  </p>
+  <span class="interlude-author" style="color:rgba(255,255,255,.4)">— 16 de março, 18h09</span>
+</div>
+
+<!-- ══════════════ CAPÍTULO III ══════════════ -->
+<div class="chapter-break">
+  <span class="ch-number">III</span>
+  <span class="ch-title">Sara — os mil nomes de uma pessoa única</span>
+  <div class="ch-ornament"><span>✦ · ✦ · ✦</span></div>
+</div>
+
+<div class="letter-wrapper">
+
+  <div class="section">
+    <div class="section-ornament">✦ ✦ ✦</div>
+    <span class="section-label">a tentativa impossível de te descrever</span>
+    <h2>Como você cabe em tantos nomes e transborda em todos</h2>
+    <p>
+      Sara. Nene. Princesa. Moaguinho. Fofinha. Lindona. Minha.
+      Cada um desses nomes existe porque uma palavra só não aguenta você.
+      Cada apelido é uma tentativa — carinhosa e frustrada ao mesmo tempo —
+      de capturar quem você é. Nenhum consegue. Todos juntos chegam perto,
+      mas ainda falta alguma coisa que só existe em você e que a língua portuguesa
+      ainda não inventou palavra pra nomear.
+    </p>
+
+    <div class="milestones">
+      <div class="milestone">
+        <span class="milestone-icon">🌸</span>
+        <span class="milestone-title">Sara</span>
+        <span class="milestone-text">o nome que carrega tudo. princesa em hebraico. e faz sentido.</span>
+      </div>
+      <div class="milestone">
+        <span class="milestone-icon">🌙</span>
+        <span class="milestone-title">Nene</span>
+        <span class="milestone-text">a ternura. a doçura que você nem percebe que tem mas que torna tudo mais macio.</span>
+      </div>
+      <div class="milestone">
+        <span class="milestone-icon">👑</span>
+        <span class="milestone-title">Princesa</span>
+        <span class="milestone-text">não pelo trono — pela dignidade natural de quem não precisa provar nada a ninguém.</span>
+      </div>
+      <div class="milestone">
+        <span class="milestone-icon">💛</span>
+        <span class="milestone-title">Moaguinho</span>
+        <span class="milestone-text">o apelido de dentro. o que só eu sei. o que só existiu porque você me deixou chegar perto.</span>
+      </div>
+    </div>
+
+    <p>
+      Mas deixa eu tentar de verdade. Não com apelidos — com palavras de verdade.
+      Você é a pessoa que entra num ambiente e ele fica diferente. Não por barulho,
+      não por extravagância — por <em>presença</em>. Por aquele tipo de energia
+      que não tem nome técnico mas que qualquer ser humano com o coração funcionando consegue sentir.
+    </p>
+    <p>
+      Você tem uma risada que é difícil de descrever pro papel.
+      Uma risada que começa pequena e vira coisa grande,
+      que é contagiosa sem ser forçada, que é genuína ao ponto de ser quase absurda.
+      Uma risada que a gente guarda na memória não como som, mas como <em>sentimento</em>.
+      Eu guardo a sua assim.
+    </p>
+    <p>
+      Você é mais forte do que parece. Muito mais. Tem uma resiliência quieta em você,
+      daquele tipo que não precisa de plateia, que não pede reconhecimento.
+      Você atravessa as coisas difíceis com uma dignidade que me deixa sem ar.
+      E depois ainda sorri. Ainda cuida. Ainda está presente.
+      <em>Como você faz isso, Sara?</em> Eu ainda não aprendi. Mas estou tentando.
+    </p>
+  </div>
+
+  <div class="divider">✦ · · · · · ✦ · · · · · ✦</div>
+
+  <div class="section">
+    <span class="section-label">as pequenas coisas que me derrubam</span>
+    <h2>Os detalhes que ninguém vê mas que eu guardo todos</h2>
+    <p>
+      Tem gente que fala muito sobre o amor grandioso — as grandes declarações,
+      os gestos épicos, os momentos que cabem em filme. E tudo bem, essas coisas existem.
+      Mas o que realmente me pega, o que me derruba de verdade, são os detalhes.
+      As pequenas coisas que você faz sem saber que estou vendo.
+    </p>
+    <p>
+      O jeito que você segura o celular quando está lendo algo interessante,
+      inclinando a cabeça levemente, os olhos arregalando um pouco.
+      O modo como você fala mais rápido quando está animada, as palavras atropelando umas às outras,
+      e como isso é a coisa mais adorável do mundo.
+      A sua teimosia boa — aquela que parece obstinação mas é, na verdade,
+      <em>caráter</em>. Convicção. Você que sabe o que pensa e não troca por nada.
+    </p>
+    <div class="quote-block">
+      <p>São os detalhes que constroem o amor de verdade. E eu colecionei todos os seus.</p>
+    </div>
+    <p>
+      O cuidado silencioso com que você trata as pessoas que você ama.
+      Não precisa de discurso — você <em>aparece</em>. Está lá. Faz. É presente.
+      Esse tipo de amor que não precisa se anunciar porque é evidente
+      em cada gesto pequeno que você distribui sem perceber.
+    </p>
+    <p>
+      Você me faz rir de um jeito específico — um tipo de risada que eu não dou com mais ninguém.
+      Do fundo. Aquela que sai involuntária, que acontece antes que a gente pense.
+      É o sinal mais honesto de cumplicidade que existe:
+      quando alguém te faz rir antes que você decida rir.
+      Você faz isso comigo. Sempre fez.
+    </p>
+  </div>
+
+</div>
+
+<!-- INTERLUDE AZUL -->
+<div class="interlude blue-interlude">
+  <p class="interlude-text">
+    "Você é o melhor livro que já li.<br>
+    Cada página uma descoberta.<br>
+    Cada capítulo melhor que o anterior.<br>
+    E eu quero reler para sempre."
+  </p>
+  <span class="interlude-author" style="color:var(--blue)">— com todo o amor que existe em mim</span>
+</div>
+
+<!-- ══════════════ CAPÍTULO IV ══════════════ -->
+<div class="chapter-break">
+  <span class="ch-number">IV</span>
+  <span class="ch-title">A nossa história — construída tijolo por tijolo</span>
+  <div class="ch-ornament"><span>✦ · ✦ · ✦</span></div>
+</div>
+
+<div class="letter-wrapper">
+
+  <div class="section">
+    <span class="section-label">do bilhete até aqui</span>
+    <h2>Tudo que a gente construiu sem ter plano</h2>
+    <p>
+      A nossa história não teve roteiro. Não foi planejada, não foi estratégica,
+      não seguiu nenhum manual. Foi improvisada do começo ao fim —
+      e por isso é tão nossa. Porque improviso autêntico é raro e lindo.
+      Porque quando a coisa é real, ela não precisa de ensaio.
+    </p>
+    <p>
+      Começou com um bilhete sobre um carro laranja e uma Mayara organizando coisas na mesa.
+      Começou com "paia KKK" e um "sua linda" escondido no canto.
+      Começou com seis palavras às 18h09 de um dia de março que escolheu ser histórico
+      sem ter pedido permissão pra isso.
+    </p>
+
+    <div class="inner-letter">
+      <p>
+        E depois disso veio tudo o mais. Cada conversa que foi longa demais mas pareceu curta.
+        Cada mensagem mandada sem muito motivo, só porque você cruzou minha mente de repente —
+        o que acontece com uma frequência absurda, aliás, e de formas inesperadas:
+        numa música, numa cor, numa frase aleatória que te lembrou, num silêncio que pediu você.
+        Cada risada boba que virou referência, cada coisa idiota que é engraçada só pra gente dois.
+        Cada momento quieto que não precisou de palavras porque a presença já dizia tudo.
+      </p>
+    </div>
+
+    <p>
+      Eu olho pra trás e me impressiono.
+      Não com o tamanho das conquistas — mas com a <em>profundidade</em> do que a gente construiu.
+      Com o tipo de intimidade que leva tempo e coragem pra existir,
+      que não se fabrica, que não se apresse, que só nasce de verdade quando as duas pessoas
+      decidem, mesmo que inconscientemente, que vão ser honestas uma com a outra.
+    </p>
+    <p>
+      A gente foi honesto. Desde o bilhete. Desde o "paia KKK" sem filtro e o "sua linda" que você escreveu no cantinho — e que eu li e fiquei feliz de um jeito que durou dias.
+      A gente foi honesto — e isso fez de tudo o mais <strong>real</strong>.
+    </p>
+  </div>
+
+  <div class="divider">✦ · · · · · ✦ · · · · · ✦</div>
+
+  <div class="section dark-section">
+    <span class="section-label">sobre o que eu aprendi com você</span>
+    <h2>O que a gente ensina um ao outro sem perceber</h2>
+    <p>
+      Você me ensinou — sem querer, sem saber que estava ensinando —
+      que presença importa mais do que perfeição.
+      Que estar é mais valioso que ser impecável.
+      Que os silêncios confortáveis são mais intimistas do que os discursos elaborados.
+    </p>
+    <p>
+      Você me ensinou que a gentileza não é passividade —
+      que é possível ser doce e firme ao mesmo tempo,
+      que cuidar não significa perder a si mesmo,
+      que dar pode ser generoso sem ser sacrifício.
+      <em>Você vive isso. Todo dia. Sem drama.</em>
+    </p>
+    <p>
+      E você me ensinou — esse talvez seja o maior — que o amor de verdade não é aquele
+      que brilha forte por um segundo e se apaga.
+      É o que vai ficando mais sólido com o tempo, mais confiável, mais bonito
+      de um jeito que só quem está perto consegue ver.
+      Como aquelas pedras que ficam mais lisas quanto mais o rio passa por elas.
+    </p>
+    <div class="quote-block gold-quote">
+      <p>Você me tornou melhor. E esse é o presente mais bonito que alguém pode dar a outra pessoa.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- STARFIELD -->
+<div class="starfield-section">
+  <canvas id="stars-canvas"></canvas>
+  <div class="starfield-content">
+    <h2>Em algum lugar desta noite</h2>
+    <p>
+      Tem uma coisa que penso às vezes — naquelas horas de madrugada quando o silêncio
+      abre espaço pra esses pensamentos: de todas as coisas que poderiam ter acontecido diferente,
+      de todos os caminhos paralelos onde a gente não se falou, onde o bilhete não foi escrito,
+      onde eram 18h10 e não 18h09 —
+    </p>
+    <p>
+      — eu fico imensamente grato por ter vivido nessa versão.
+      A versão onde eu perguntei sobre o São Raimundo.
+      A versão onde você respondeu "já".
+      A versão onde você escreveu "sua linda" num cantinho de papel
+      e eu li — <em>e fiquei feliz</em>.
+    </p>
+    <p>
+      Das infinitas formas que a vida podia ter ido,
+      ela foi parar aqui. Nos dois. E isso, Sara Albano,
+      é a coisa mais bonita que já aconteceu comigo.
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════ CAPÍTULO V ══════════════ -->
+<div class="chapter-break">
+  <span class="ch-number">V</span>
+  <span class="ch-title">O que eu quero que você saiba — de verdade</span>
+  <div class="ch-ornament"><span>✦ · ✦ · ✦</span></div>
+</div>
+
+<div class="letter-wrapper">
+
+  <div class="section">
+    <span class="section-label">sem adorno, sem performance</span>
+    <h2>A parte mais honesta desta carta</h2>
+    <p>
+      Chega uma hora na carta onde os recursos literários dão uma pausa
+      e o coração fala mais direto. É aqui. É agora.
+    </p>
+    <p>
+      Sara, você mudou a qualidade da minha vida. Não é exagero, não é romantismo conveniente —
+      é a descrição mais precisa que eu tenho do que aconteceu depois que a gente se aproximou.
+      O meu dia é diferente porque você existe nele.
+      A minha manhã tem um peso melhor porque eu sei que você está por aí.
+      As coisas boas ficam maiores porque eu quero te contar.
+      As coisas ruins ficam menores porque você está presente.
+    </p>
+    <p>
+      Eu penso em você quando vejo algo bonito e quero que você veja também.
+      Quando oço uma música que parece ter sido feita pra esse sentimento.
+      Quando acontece algo engraçado e minha primeira reação é imaginar sua risada.
+      Quando estou num lugar novo e o primeiro pensamento é <em>"ela ia gostar daqui."</em>
+    </p>
+    <div class="quote-block">
+      <p>Você mora em mim de um jeito que já não sei distinguir o que era antes.</p>
+    </div>
+    <p>
+      E eu preciso que você saiba — com toda a clareza que essa carta pode ter —
+      que você é amada. Profundamente. Do tipo que não acaba com briga,
+      não diminui com distância, não esfria com o tempo.
+      Do tipo que vai junto, que acompanha, que está lá nas versões boa e difícil,
+      no dia brilhante e na semana cinza.
+    </p>
+    <p>
+      <strong>Eu te escolho. Todo dia. Sem hesitar. Sem negociação. Sem condição.</strong>
+    </p>
+  </div>
+
+  <div class="divider">✦ · · · · · ✦ · · · · · ✦</div>
+
+  <div class="section">
+    <span class="section-label">o livro que você é</span>
+    <h2>Por que eu quero reler você para sempre</h2>
+
+    <div class="book-page">
+      <p>
+        Existe um tipo de livro — raro, desses que aparecem uma vez na vida —
+        que a gente termina de ler e fica parado, olhando pro teto,
+        com aquele sentimento estranho de que acabou mas não quer que tenha acabado.
+        Um livro que muda como a gente vê o mundo.
+        Que deixa o leitor diferente do que entrou.
+        Que tem a capacidade de ser relido múltiplas vezes
+        e a cada vez revelar algo que não estava lá antes —
+        ou estava, mas a gente ainda não estava pronto pra ver.
+      </p>
+      <span class="page-number">página I</span>
+    </div>
+
+    <div class="book-page">
+      <p>
+        Você é esse livro pra mim, Sara.
+        Cada conversa é um capítulo novo. Cada momento compartilhado é uma página
+        que eu quero dobrar o cantinho pra guardar.
+        Cada vez que aprendo algo sobre você — algo que você revela devagarzinho,
+        da forma que só os livros bons revelam seus segredos —
+        eu me torno um leitor mais apaixonado.
+        Não canso. Nunca terei lido o suficiente.
+        <em>Você é inesgotável.</em>
+      </p>
+      <span class="page-number">página II</span>
+    </div>
+
+    <div class="book-page">
+      <p>
+        E quando eu digo que quero te reler para sempre,
+        não é metáfora bonita — é plano.
+        É o que eu quero fazer: continuar te conhecendo, continuar descobrindo,
+        continuar sendo surpreendido pelo jeito que você pensa,
+        pelo que te faz rir, pelo que te comove, pelo que te faz os olhos brilharem.
+        Quero estar do lado pra ver tudo isso.
+        Por muito tempo. Por todo o tempo que você me deixar.
+      </p>
+      <span class="page-number">página III</span>
+    </div>
+  </div>
+
+  <div class="divider">✦ · · · · · ✦ · · · · · ✦</div>
+
+  <div class="section blue-section">
+    <span class="section-label">o lugar novo onde você me levou</span>
+    <h2>Um lugar mais bonito, onde as coisas têm mais cor</h2>
+    <p>
+      Você me disse — ou talvez você não tenha dito com palavras, talvez tenha dito existindo —
+      que existe um lugar mais bonito do que o ordinário.
+      Um lugar onde as coisas têm mais cor. Onde o tempo passa diferente.
+      Onde os momentos pequenos valem mais do que os grandiosos.
+      Onde um bilhete de papel pode ser mais precioso do que qualquer presente caro.
+    </p>
+    <p>
+      Eu não conhecia esse lugar antes de você.
+      Visitava raramente, de passagem, sem saber que existia com tanta intensidade.
+      Você me levou lá de mão dada, sem cerimônia, sem perceber o quanto estava me mostrando.
+      E agora eu não consigo mais imaginar voltar ao cinza de antes.
+    </p>
+    <div class="quote-block blue-quote">
+      <p>
+        Você me levou a um lugar novo, mais bonito,<br>
+        onde as coisas têm mais cor e o tempo passa diferente.
+      </p>
+    </div>
+    <p>
+      Esse lugar tem o seu cheiro. Tem a sua risada como trilha sonora.
+      Tem a sua leveza como clima. Tem a sua presença como arquitetura.
+      E eu quero morar aqui. Com você. Pelo tempo que essa vida permitir.
+    </p>
+  </div>
+
+</div>
+
+<!-- ══════════════ FINAL ══════════════ -->
+<div class="final-section" id="final">
+  <div class="final-bg-heart">♥</div>
+
+  <h2>Se você chegou até esta última página...</h2>
+
+  <p>
+    Então você leu tudo. Cada palavra, cada parágrafo, cada capítulo.
+    Você foi do começo — daquele silêncio antes do começo —
+    até aqui, nessa linha final, com os seus olhos nessa última frase.
+  </p>
+  <p>
+    E eu preciso que você entenda o que isso significa:
+    você não chegou até aqui porque é uma carta bem escrita.
+    Você chegou até aqui porque, lá no fundo, em alguma parte que não mente,
+    <em>você também sente.</em> O coração reconhece o que é real
+    e não deixa você fechar o livro antes da última página quando a história é verdadeira.
+  </p>
+  <p>
+    Essa é nossa história. Real, imperfeita, construída em papel de bilhete
+    e em conversas que foram longas demais mas nunca o suficiente.
+    Construída às 18h09 de um dia de março que escolheu ser eterno.
+    Construída no "paia KKK" e no "sua linda" escondido no canto.
+    <strong>Toda nossa. De ninguém mais.</strong>
+  </p>
+  <p>
+    Você é inesquecível, Sara Albano. Não só pra mim —
+    pra tudo que você toca, pra todo lugar que você está, pra toda pessoa
+    que tem a sorte de te conhecer de verdade.
+    Mas pra mim, especificamente, com toda a ênfase que essa palavra pode ter:
+    <em>você é a melhor coisa.</em>
+  </p>
+  <p>
+    Feliz dia dos namorados. Feliz todo dia que existir depois desse.
+    Obrigado por existir do jeito que você existe.
+    Obrigado por ter respondido "já" naquela tarde.
+    Obrigado por ter escrito "sua linda" no cantinho do papel.
+    Obrigado por ter ficado.
+  </p>
+
+  <div class="final-reveal">
+    <p>
+      Se você chegou até essa última linha,
+      saiba que ela foi escrita pensando em você chegando até ela.
+      Cada palavra desta carta existiu porque você merecia ter um lugar
+      onde o amor por você está escrito — enorme, profundo, sem fim.
+      Agora você tem. E isso não vai a lugar nenhum.
+      Assim como eu — não vou a lugar nenhum.
+      Estou aqui. Com você. Para o que vier.
+      Para sempre, se você me deixar. 💙
+    </p>
+  </div>
+
+  <div class="signature-block">
+    <span class="signature">Com amor infinito — seu 🌸</span>
+    <span class="signature-sub">16 de março · 18h09 · o começo de tudo · feito com amor infinito para Sara Albano</span>
+  </div>
+</div>
+
+<script>
+// ── PROGRESS BAR ──
+window.addEventListener('scroll', () => {
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+});
+
+// ── PETALS ──
+const pe = document.getElementById('petals');
+['🌸','🌺','🌷','💮','🌼','✿','❀'].forEach((e,i) => {
+  for(let j=0;j<4;j++){
+    const p=document.createElement('div');
+    p.className='petal'; p.textContent=e;
+    p.style.left=Math.random()*100+'vw';
+    p.style.animationDuration=(9+Math.random()*11)+'s';
+    p.style.animationDelay=(Math.random()*14)+'s';
+    p.style.fontSize=(.6+Math.random()*.9)+'rem';
+    pe.appendChild(p);
+  }
+});
+
+// ── FLOATING HEARTS ──
+const fhe=document.getElementById('fhearts');
+['♥','💕','💗','💖','💓','💝','🌸'].forEach(e=>{
+  for(let j=0;j<3;j++){
+    const h=document.createElement('div');
+    h.className='fheart'; h.textContent=e;
+    h.style.left=Math.random()*100+'vw';
+    h.style.animationDuration=(7+Math.random()*9)+'s';
+    h.style.animationDelay=(Math.random()*18)+'s';
+    h.style.fontSize=(.7+Math.random()*1.1)+'rem';
+    fhe.appendChild(h);
+  }
+});
+
+// ── SCROLL REVEAL ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible')});
+},{threshold:0.1});
+document.querySelectorAll('.section,.divider,.chapter-break,.interlude,.starfield-section,.final-section')
+  .forEach(el=>obs.observe(el));
+
+// ── TOUCH / CLICK PARTICLES ──
+const TOUCH_PARTICLES = ['🌸','🌺','🌷','💕','💗','💖','💓','✨','🌼','💝','🩷','🌸','♥'];
+const touchLayer = document.createElement('div');
+touchLayer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:99999;overflow:hidden';
+document.body.appendChild(touchLayer);
+
+function spawnParticles(x, y) {
+  const count = 7 + Math.floor(Math.random() * 5);
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    const emoji = TOUCH_PARTICLES[Math.floor(Math.random() * TOUCH_PARTICLES.length)];
+    const size = 1 + Math.random() * 1.4;
+    const angle = (Math.random() * 360) * (Math.PI / 180);
+    const speed = 55 + Math.random() * 90;
+    const dx = Math.cos(angle) * speed;
+    const dy = Math.sin(angle) * speed - 40;
+    const duration = 700 + Math.random() * 600;
+    const delay = Math.random() * 120;
+
+    el.textContent = emoji;
+    el.style.cssText = `
+      position:absolute;
+      left:${x}px;top:${y}px;
+      font-size:${size}rem;
+      pointer-events:none;
+      user-select:none;
+      transform:translate(-50%,-50%) scale(0);
+      opacity:1;
+      transition:none;
+    `;
+    touchLayer.appendChild(el);
+
+    setTimeout(() => {
+      el.style.transition = `transform ${duration}ms cubic-bezier(.2,.8,.4,1), opacity ${duration}ms ease, top ${duration}ms ease, left ${duration}ms ease`;
+      el.style.transform = `translate(-50%,-50%) scale(${0.7 + Math.random() * 0.6}) rotate(${(Math.random()-0.5)*40}deg)`;
+      el.style.left = (x + dx) + 'px';
+      el.style.top  = (y + dy) + 'px';
+      el.style.opacity = '0';
+    }, delay);
+
+    setTimeout(() => el.remove(), delay + duration + 50);
+  }
+
+  // tiny ripple circle
+  const ripple = document.createElement('div');
+  ripple.style.cssText = `
+    position:absolute;
+    left:${x}px;top:${y}px;
+    width:8px;height:8px;
+    border-radius:50%;
+    border:2px solid rgba(232,120,154,.6);
+    transform:translate(-50%,-50%) scale(0);
+    pointer-events:none;
+    transition:transform 500ms ease, opacity 500ms ease;
+    opacity:1;
+  `;
+  touchLayer.appendChild(ripple);
+  requestAnimationFrame(() => {
+    ripple.style.transform = 'translate(-50%,-50%) scale(8)';
+    ripple.style.opacity = '0';
+  });
+  setTimeout(() => ripple.remove(), 550);
+}
+
+// mouse
+document.addEventListener('click', e => spawnParticles(e.clientX, e.clientY));
+
+// touch (mobile) — prevent double-fire with mouse
+document.addEventListener('touchstart', e => {
+  const t = e.touches[0];
+  spawnParticles(t.clientX, t.clientY);
+}, { passive: true });
+
+// ── STARS ──
+const canvas=document.getElementById('stars-canvas');
+if(canvas){
+  const ctx=canvas.getContext('2d');
+  let stars=[];
+  function resize(){
+    canvas.width=canvas.offsetWidth;
+    canvas.height=canvas.offsetHeight;
+  }
+  function initStars(){
+    stars=[];
+    for(let i=0;i<220;i++){
+      stars.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*1.8+.3,
+        a:Math.random(),
+        s:Math.random()*.015+.003
+      });
+    }
+  }
+  function drawStars(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s=>{
+      s.a+=s.s; if(s.a>1||s.a<0) s.s*=-1;
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${s.a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  window.addEventListener('resize',()=>{resize();initStars()});
+  resize(); initStars(); drawStars();
+}
+</script>
+</body>
+</html>
